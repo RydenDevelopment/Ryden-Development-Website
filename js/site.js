@@ -3,14 +3,6 @@
 
 // Write your JavaScript code.
 
-$(document).ready(function () {
-    const anchorId = document.getElementById("AnchorId").value;
-    const anchorElement = document.getElementById(anchorId);
-    if (anchorElement !== null) {
-        anchorElement.scrollIntoView(true);
-    }
-});
-
 document.addEventListener('DOMContentLoaded', function () {
     const contactTypeRadios = document.querySelectorAll('input[name="ContactType"]');
     const productDropdownContainer = document.getElementById('product-selection-container');
