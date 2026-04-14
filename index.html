@@ -347,7 +347,7 @@
                                     <span class="input-group-text">
                                         <span class="bi bi-person"></span>
                                     </span>
-                                    <input type="text" class="form-control" id="Name" name="Name" placeholder="Förnamn och Efternamn" value="">
+                                    <input type="text" class="form-control" id="Name" name="name" placeholder="Förnamn och Efternamn" value="" required>
                                     <input type="text" class="form-control" id="LastName" name="LastName" placeholder="Enter your last name" value="" hidden="hidden">
                                 </div>
                                 <br/>
@@ -356,7 +356,7 @@
                                     <span class="input-group-text">
                                         <span class="bi bi-envelope"></span>
                                     </span>
-                                    <input type="email" class="form-control" id="Email" name="Email" placeholder="Tex: your@email.com" value="">
+                                    <input type="email" class="form-control" id="Email" name="email" placeholder="Tex: your@email.com" value="" required>
                                 </div>
                                 <br/>
                                 <label for="PhoneNumber"><b>Telefonnummer</b></label>
@@ -378,11 +378,6 @@
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 col-sm-12">
                                         <button type="submit" class="btn btn-primary">Skicka</button>
-                                    </div>
-                                    <div class="col-lg-9 col-md-8 col-sm-12">
-        
-                                        <div class="alert @(isSuccess == "true" ? "alert-success" : "alert-danger") fade show" role="alert">
-                                        <strong></strong>
                                     </div>
                                 </div>
                             </form>
