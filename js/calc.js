@@ -84,11 +84,13 @@ function calculate() {
     });
 
     const totalProfit = totalTurnover - totalCost;
-    const payout = Math.max(0, totalProfit * (1 - taxRate / 100));
+    const taxAmount = totalProfit * (taxRate / 100);
+    const payout = Math.max(0, totalProfit - taxAmount);
 
     document.getElementById('total-turnover').innerText = formatSEK(totalTurnover);
     document.getElementById('total-cost').innerText = `-${formatSEK(totalCost)}`;
     document.getElementById('total-profit').innerText = formatSEK(totalProfit);
+    document.getElementById('total-tax').innerText = `-${formatSEK(taxAmount)}`;
     document.getElementById('total-payout-display').innerText = formatSEK(payout);
 
     document.getElementById('table-body').innerHTML = tableHtml;
