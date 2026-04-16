@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Projection Tool</title>
+    <!-- Site.css -->
+    <link rel="stylesheet" href="./css/calc.css"/>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="container py-5">
+    <!-- Header -->
+    <div class="row align-items-center mb-5">
+        <div class="col-md-7">
+            <h1 class="fw-bold mb-1">Business Projection Tool</h1>
+            <p class="text-muted">Interactive Revenue, Cost & Tax Simulator</p>
+        </div>
+        <div class="col-md-5">
+            <div id="payout-header" class="d-flex align-items-center gap-3">
+                <div class="bg-success bg-opacity-10 p-3 rounded-3 text-success">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                        <path d="M1 3h14v1H1V3zm0 8h14v1H1v-1zm4.5-4a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
+                    </svg>
+                </div>
+                <div>
+                    <div class="stat-label">Available Payout (SEK)</div>
+                    <div class="stat-value text-dark" id="total-payout-display">0 SEK</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Input Column -->
+        <div class="col-lg-4">
+            <!-- Customer Volume -->
+            <div class="card">
+                <div class="card-header">Customer Volume</div>
+                <div class="card-body py-4">
+                    <div class="mb-4">
+                        <label class="form-label">AZURE STATIC <span class="count-display" id="val-azure">5</span></label>
+                        <div class="description">Azure Free Tier (Static)</div>
+                        <input type="range" class="form-range" min="0" max="100" value="5" id="input-azure">
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">START <span class="count-display" id="val-start">10</span></label>
+                        <div class="description">Standard managed hosting</div>
+                        <input type="range" class="form-range" min="0" max="100" value="10" id="input-start">
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">GROWTH <span class="count-display" id="val-growth">11</span></label>
+                        <div class="description">Stepped infrastructure (150/10)</div>
+                        <input type="range" class="form-range" min="0" max="100" value="11" id="input-growth">
+                    </div>
+                    <div class="mb-0">
+                        <label class="form-label">PROFESSIONAL <span class="count-display" id="val-prof">2</span></label>
+                        <div class="description">High-performance dedicated</div>
+                        <input type="range" class="form-range" min="0" max="100" value="2" id="input-prof">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cost Overrides -->
+            <div class="card">
+                <div class="card-header">Cost Overrides (SEK)</div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <label class="stat-label d-block">Azure (Unit)</label>
+                            <input type="number" class="form-control form-control-sm" id="cost-azure" value="0">
+                        </div>
+                        <div class="col-6">
+                            <label class="stat-label d-block">Start (Unit)</label>
+                            <input type="number" class="form-control form-control-sm" id="cost-start" value="100">
+                        </div>
+                        <div class="col-6">
+                            <label class="stat-label d-block">Growth (Batch 10)</label>
+                            <input type="number" class="form-control form-control-sm" id="cost-growth" value="150">
+                        </div>
+                        <div class="col-6">
+                            <label class="stat-label d-block">Prof. (Unit)</label>
+                            <input type="number" class="form-control form-control-sm" id="cost-prof" value="250">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tax Rate -->
+            <div class="card bg-dark text-white border-0">
+                <div class="card-header text-white-50 border-secondary">Tax Calculation</div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="fw-bold">Estimated Tax Rate</span>
+                        <span class="fw-bold text-info" id="val-tax">33%</span>
+                    </div>
+                    <input type="range" class="form-range" min="20" max="55" value="33" id="input-tax">
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Column -->
+        <div class="col-lg-8">
+            <!-- Totals -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <div class="stat-label">Total Turnover</div>
+                        <div class="stat-value" id="total-turnover">0 SEK</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <div class="stat-label">Operating Costs</div>
+                        <div class="stat-value text-danger" id="total-cost">0 SEK</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card bg-primary text-white border-0">
+                        <div class="stat-label text-white-50">Gross Profit</div>
+                        <div class="stat-value" id="total-profit">0 SEK</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart -->
+            <div class="card">
+                <div class="card-header">Margin Analysis</div>
+                <div class="card-body">
+                    <canvas id="marginChart" height="280"></canvas>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="card overflow-hidden">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="bg-light">
+                        <tr>
+                            <th class="ps-4 py-3">Package</th>
+                            <th class="text-end py-3">Customers</th>
+                            <th class="text-end py-3">Cost</th>
+                            <th class="text-end pe-4 py-3">Profit</th>
+                        </tr>
+                        </thead>
+                        <tbody id="table-body">
+                        <!-- Rows injected by JS -->
+                        </tbody>
+                        <tfoot class="bg-dark text-white fw-bold">
+                        <tr id="table-footer">
+                            <!-- Footer injected by JS -->
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="./js/calc.js"></script>
+</body>
+</html>
